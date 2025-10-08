@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
@@ -7,7 +8,7 @@ import { Form, FieldRenderer, conditionalZodResolver } from '@/components/forms'
 import { Button } from '@/components/ui/button'
 import { formSchema, formConfig, defaultValues } from './config'
 
-export default function OtpPage () {
+function OtpContent() {
   const router = useRouter()
   const params = useSearchParams()
   const phone = params.get('phone') || ''
@@ -61,6 +62,14 @@ export default function OtpPage () {
         </Form>
       </div>
     </div>
+  )
+}
+
+export default function OtpPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white px-6 py-10 md:py-16"></div>}>
+      <OtpContent />
+    </Suspense>
   )
 }
 

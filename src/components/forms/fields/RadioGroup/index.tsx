@@ -81,7 +81,6 @@ const RadioGroup = React.forwardRef<HTMLInputElement, RadioGroupProps>(
                 handleTick={() => { changeOption(option) }}
                 onBlur={onBlur}
                 hasError={hasError}
-                styleLabel={{}}
                 disabled={disabled}
                 index={index}
               />

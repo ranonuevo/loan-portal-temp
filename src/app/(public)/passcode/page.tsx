@@ -84,7 +84,7 @@ export default function PasscodePage() {
             {[0,1,2,3].map((i) => (
               <Input
                 key={i}
-                ref={(el) => (inputRefs.current[i] = el)}
+                ref={(el) => { inputRefs.current[i] = el }}
                 type="password"
                 inputMode="numeric"
                 maxLength={1}

@@ -17,7 +17,7 @@ type Config = {
   title: string,
   description: string
   buttonConfirmLabel?: string
-  buttonConfirmVariant?: any
+  buttonConfirmVariant?: React.ComponentProps<typeof Button>["variant"]
   showCancelBtn?: boolean
 }
 

@@ -8,7 +8,7 @@ export type InputProps = {
   trailingContent?: React.ReactNode,
   trailingContentClassName?: string,
   debounceDuration?: number
-  onDebounceChange?: (e: any) => void,
+  onDebounceChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   hasError?: boolean
   dataMask?: 'date' | undefined
 } & React.ComponentProps<"input">
@@ -31,13 +31,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     ...props 
   }, ref) => {
 
-    const [inputValue, setInputValue] = React.useState<any>(value ?? "")
+    const [inputValue, setInputValue] = React.useState<string>(String(value ?? ""))
     const [showPassword, setShowPassword] = React.useState(false)
 
-    const [inputEventValue, setInputEventValue] = React.useState<any>(null)
+    const [inputEventValue, setInputEventValue] = React.useState<React.ChangeEvent<HTMLInputElement> | null>(null)
     const inputType = type === "password" && togglePassword && showPassword ? "text" : type
 
-    let onChangeProps: any = {}
+    let onChangeProps: Pick<React.ComponentProps<'input'>, 'value' | 'onChange'> = { value, onChange: () => {} }
     if (debounceDuration > 0) {
       onChangeProps = {
         value: inputValue,
@@ -69,7 +69,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             value: nextValue
           }
         }
-        props.onChange?.(syntheticEvent as React.ChangeEvent<HTMLInputElement>)
+        props.onChange?.(syntheticEvent as unknown as React.ChangeEvent<HTMLInputElement>)
       }
       onChangeProps = {
         value,
@@ -82,12 +82,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   
       const timeout = setTimeout(() => {
         const SyntheticBaseEvent = {
-          ...inputEventValue,
+          ...(inputEventValue as unknown as React.ChangeEvent<HTMLInputElement>),
           target: {
-            ...inputEventValue?.target,
+            ...(inputEventValue?.target as EventTarget & HTMLInputElement),
             value: inputValue
           }
-        }
+        } as unknown as React.ChangeEvent<HTMLInputElement>
         onDebounceChange?.(SyntheticBaseEvent)
         props?.onChange?.(SyntheticBaseEvent)
       }, debounceDuration)
@@ -97,7 +97,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   
     React.useEffect(() => {
       if (debounceDuration === 0) return // don't run debounce related
-      setInputValue(value)
+      setInputValue(String(value ?? ""))
     }, [value]) // eslint-disable-line
 
     return (

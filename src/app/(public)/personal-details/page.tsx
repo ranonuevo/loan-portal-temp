@@ -24,11 +24,10 @@ export default function PersonalDetailsPage() {
   
   const { 
     handleSubmit, 
-    setValue,
-    formState: { errors } 
+    setValue
   } = hookForm
 
-  const isDisableFields = hookForm.watch('isDisableFields')
+  // const isDisableFields = hookForm.watch('isDisableFields')
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => { 
     console.log('onSubmit', values)

@@ -1,5 +1,5 @@
 import * as FORM from '@/components/forms'
-import {  useFormField, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from '../form'
+import {  FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from '../form'
 import { FieldConfig } from '../index'
 import React from 'react'
 
@@ -7,7 +7,7 @@ export type Props = {
   name: string,
   fieldArrayName?: string | null,
   fieldsConfig: FieldConfig[],
-  hookForm: any
+  hookForm: unknown
 }
 
 export const FieldRenderer = ({
@@ -17,7 +17,7 @@ export const FieldRenderer = ({
   hookForm
 }: Props) => {
   let fieldConfig: FieldConfig | undefined = undefined
-  let fieldArrayConfig: any
+  let fieldArrayConfig: { name: string; index: number; child: string } | undefined
 
   if (fieldArrayName) {
     const splitName = fieldArrayName.split('.')
@@ -25,13 +25,13 @@ export const FieldRenderer = ({
     const arrayChildName = splitName[2]
     fieldArrayConfig = {
       name: arrayName,
-      index: splitName[1],
+      index: Number(splitName[1]),
       child: arrayChildName
     }
-    const parentField: any = fieldsConfig.find(f => f.name === arrayName)
+    const parentField = fieldsConfig.find(f => f.name === arrayName) as unknown as { childFields?: Array<{ name: string }> } | undefined
     if (parentField) {
-      const childFields: any[] = parentField?.childFields
-      fieldConfig = childFields.find((aF: any) => aF.name === arrayChildName)
+      const childFields = (parentField?.childFields || []) as Array<{ name: string }>
+      fieldConfig = childFields.find((aF) => aF.name === arrayChildName) as unknown as FieldConfig | undefined
       if (!fieldConfig) return `Config for child '${name}' not found.`
     }
   } else {
@@ -41,21 +41,16 @@ export const FieldRenderer = ({
   if (!fieldConfig) return `Config for '${name}' not found.`
 
   
-  const { control, watch } = hookForm
+  const { control, watch } = hookForm as { control: unknown; watch: () => unknown }
 
   // ##### Disabled thing
   let isFieldDisabled: boolean = false
   if (fieldConfig && 'isDisabled' in fieldConfig) {
     if (typeof fieldConfig.isDisabled === 'function') {
       const values = watch()
-      let paramIndex = null
-      let paramName = name
-
-      if (fieldArrayName) {
-        paramIndex = fieldArrayConfig.index
-        paramName = fieldArrayConfig.name
-      }
-      isFieldDisabled = fieldConfig.isDisabled(values, paramName, paramIndex)
+      const paramIndex: number | undefined = fieldArrayName ? fieldArrayConfig?.index : undefined
+      const paramName = fieldArrayName ? (fieldArrayConfig?.name ?? name) : name
+      isFieldDisabled = fieldConfig.isDisabled(values as Record<string, unknown>, paramName, paramIndex)
     } else {
       isFieldDisabled = fieldConfig.isDisabled === true
     }
@@ -63,15 +58,14 @@ export const FieldRenderer = ({
   // ##### End disabled thing
 
 
-  const renderField = (FieldComponent: any) => {
+  const renderField = (FieldComponent: React.ComponentType<any>) => {
     return (
       <FormField
         name={fieldArrayName || name}
-        control={control}
-        render={({ field }) => {
-          const { error } = useFormField()
-          const hasError = Boolean(error?.message)
-          let params = {
+        control={control as never}
+        render={({ field, fieldState }) => {
+          const hasError = Boolean(fieldState?.error?.message)
+          const params = {
             ...field,
             ...fieldConfig.fieldProps,
             disabled: isFieldDisabled,

@@ -12,7 +12,7 @@ export function conditionalZodResolver<
 >(schema: T, formConfig: FieldConfig[]): Resolver<z.infer<T>> {
   return async (values, context, options) => {
     // keep it typed as generic ZodObject so .safeExtend/.merge is available
-    let dynamicSchema: ZodObject<any> = schema as unknown as ZodObject<any>;
+    let dynamicSchema: ZodObject<ZodRawShape> = schema as unknown as ZodObject<ZodRawShape>;
 
     for (const field of formConfig) {
       if (!field.isDisabled) continue;
@@ -24,22 +24,22 @@ export function conditionalZodResolver<
 
       if (disabled) {
         // ✅ prefer safeExtend if your Zod version supports it
-        if (typeof (dynamicSchema as any).safeExtend === "function") {
-          dynamicSchema = (dynamicSchema as any).safeExtend({
-            [field.name]: z.any().optional(),
+        if (typeof (dynamicSchema as unknown as { safeExtend?: (shape: ZodRawShape) => ZodObject<ZodRawShape> }).safeExtend === "function") {
+          dynamicSchema = (dynamicSchema as unknown as { safeExtend: (shape: ZodRawShape) => ZodObject<ZodRawShape> }).safeExtend({
+            [field.name]: z.unknown().optional(),
           });
         } else {
           // fallback: use merge with a fresh object schema
           dynamicSchema = dynamicSchema.merge(
             z.object({
-              [field.name]: z.any().optional(),
+              [field.name]: z.unknown().optional(),
             })
           );
         }
       }
     }
 
-    const resolver = (zodResolver(dynamicSchema as any) as unknown) as Resolver<
+    const resolver = (zodResolver(dynamicSchema as unknown as ZodObject<ZodRawShape>) as unknown) as Resolver<
       z.infer<T>
     >;
 
@@ -48,7 +48,7 @@ export function conditionalZodResolver<
 }
 
 
-export const isEqual = (value1: any, value2: any): boolean => {
+export const isEqual = (value1: unknown, value2: unknown): boolean => {
   // Check if the two values are of different types
   if (typeof value1 !== typeof value2) {
     return false
@@ -80,16 +80,18 @@ export const isEqual = (value1: any, value2: any): boolean => {
   }
   
   // Check if the two values are objects
-  if (typeof value1 === 'object' && typeof value2 === 'object') {
-    const value1Keys = Object.keys(value1)
-    const value2Keys = Object.keys(value2)
+  if (typeof value1 === 'object' && value1 !== null && typeof value2 === 'object' && value2 !== null) {
+    const value1Obj = value1 as Record<string, unknown>
+    const value2Obj = value2 as Record<string, unknown>
+    const value1Keys = Object.keys(value1Obj)
+    const value2Keys = Object.keys(value2Obj)
     
     if (value1Keys.length !== value2Keys.length) {
       return false
     }
     
     for (const key of value1Keys) {
-      if (!isEqual(value1[key], value2[key])) {
+      if (!isEqual(value1Obj[key], value2Obj[key])) {
         return false
       }
     }
@@ -101,7 +103,7 @@ export const isEqual = (value1: any, value2: any): boolean => {
   return false
 }
 
-export const containsObject = (list: any[], obj: any) => {
+export const containsObject = (list: unknown[], obj: unknown): boolean => {
   let i
 
   for (i = 0; i < list.length; i++) {

@@ -40,7 +40,7 @@ function OtpContent() {
     <div className="min-h-screen bg-white px-6 py-10 md:py-16">
       <div className="mx-auto w-full max-w-2xl">
         <div className="mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold">Let's verify it..</h1>
+          <h1 className="text-4xl md:text-6xl font-bold">Let&apos;s verify it..</h1>
           <p className="text-text-muted mt-3 md:text-lg">A verification code was sent to</p>
           {phone ? (<p className="mt-3 font-medium md:text-lg">{phone}</p>) : null}
         </div>

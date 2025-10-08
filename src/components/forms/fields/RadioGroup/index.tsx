@@ -4,8 +4,8 @@ import { isEqual } from '../../utils'
 
 type Option = {
   label: string
-  value: any
-  [key: string]: any
+  value: unknown
+  [key: string]: unknown
 }
 
 type Value = Option | null
@@ -14,7 +14,7 @@ export type RadioGroupProps = {
   options?: Option[]
   label?: string
   value: Value
-  onChange: any
+  onChange: (val: Value) => void
   onBlur?: () => void
   disabled?: boolean
   hasError?: boolean
@@ -29,12 +29,11 @@ const RadioGroup = React.forwardRef<HTMLInputElement, RadioGroupProps>(
     onBlur,
     disabled = false,
     hasError = false,
-    ...props 
   }, ref) => {
 
     const handleBlur = (e: React.FocusEvent) => {
       if (!e.currentTarget.contains(e.relatedTarget)) {
-        onBlur && onBlur()
+        if (onBlur) onBlur()
       }
     }
 
@@ -51,13 +50,17 @@ const RadioGroup = React.forwardRef<HTMLInputElement, RadioGroupProps>(
       }
     }
     
-    const handleKeyDown = (e: any) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       switch(e.code) {
         case 'Enter':
         case 'Space':
           if (options?.length) {
-            const elementIndex = e.target?.dataset?.elementIndex
-            changeOption(options[elementIndex])
+            const target = e.target as HTMLElement
+            const idx = target?.dataset?.elementIndex
+            const elementIndex = typeof idx === 'string' ? parseInt(idx, 10) : NaN
+            if (!Number.isNaN(elementIndex) && options[elementIndex]) {
+              changeOption(options[elementIndex])
+            }
           } 
           break
       }

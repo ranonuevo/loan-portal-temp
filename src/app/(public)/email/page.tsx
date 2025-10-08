@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
-import { useFormField, conditionalZodResolver, FieldRenderer, Form, FormField, FormItem, FormLabel, FormControl, CheckBox, FormMessage } from '@/components/forms'
+import { conditionalZodResolver, FieldRenderer, Form, FormField, FormItem, FormControl, CheckBox, FormMessage } from '@/components/forms'
 
 import { Button } from '@/components/ui/button'
 import { Mail } from 'lucide-react'
@@ -41,7 +41,7 @@ export default function EmailPage () {
       <div className="mx-auto w-full max-w-2xl">
         <div className="mb-12">
           <h1 className="text-4xl md:text-6xl font-bold">Up next!</h1>
-          <p className="text-text-muted mt-3 md:text-lg">Let's get to know each other more</p>
+          <p className="text-text-muted mt-3 md:text-lg">Let&apos;s get to know each other more</p>
         </div>
 
         <Form {...hookForm}>
@@ -66,9 +66,8 @@ export default function EmailPage () {
             <FormField
               name='agreeTerms'
               control={control}
-              render={({ field }) => {
-                const { error } = useFormField()
-                const hasError = Boolean(error?.message)
+              render={({ field, fieldState }) => {
+                const hasError = Boolean(fieldState?.error?.message)
                 return (
                   <FormItem>
                     <FormControl>

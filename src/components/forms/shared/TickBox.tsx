@@ -5,8 +5,8 @@ type CheckboxProps = {
   isForRadioGroup?: boolean
   label?: React.ReactNode
   value: boolean
-  handleTick: any
-  onBlur?: any
+  handleTick: (e: React.MouseEvent<HTMLElement>) => void
+  onBlur?: (e: React.FocusEvent<HTMLElement>) => void
   hasError: boolean
   disabled?: boolean
   index?: number
@@ -33,10 +33,9 @@ const TickBox = ({
     >
       <div 
         tabIndex={0}
-        onBlur={onBlur}
+        onBlur={(e) => onBlur?.(e)}
         onClick={(e) => {
           handleTick(e);
-          onBlur?.(e);
         }}
         data-element-index={index}
         className={cn({
@@ -54,7 +53,6 @@ const TickBox = ({
       <span 
         onClick={(e) => {
           handleTick(e);
-          onBlur?.(e);
         }}
         className={cn({
           'mt-[3px]': true,

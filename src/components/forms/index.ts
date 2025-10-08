@@ -44,7 +44,7 @@ type BaseFieldConfig = {
   name: string
   label?: string
   description?: string
-  isDisabled?: boolean | ((values: any, name: string,  index: number | undefined) => boolean)
+  isDisabled?: boolean | ((values: Record<string, unknown>, name: string,  index: number | undefined) => boolean)
   childFields?: BaseFieldConfig[]
 }
 type InputFieldConfig = BaseFieldConfig & { type: typeof TYPE_INPUT, fieldProps?: InputProps }

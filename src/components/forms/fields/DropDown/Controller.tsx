@@ -9,48 +9,51 @@ import {
 import { cn } from '@/lib/utils'
 import { IconChevronDown } from '../../shared/IconChevronDown'
 
-const Controller = forwardRef(({
+const Controller = forwardRef(({ 
   value,
   options,
   placeholder,
   returnType,
   changeOption,
-  // controllerRef,
   handleClick,
-  isFocusController,
   styleController,
   hasError,
   disabled,
-  readOnly
-}: ControllerProps, ref: any) => {
+  readOnly,
+  isFocusController
+}: ControllerProps, ref: React.Ref<HTMLDivElement>) => {
 
-  const renderPlaceholder = () => <span className='text-app-placeholder whitespace-nowrap'>{ placeholder }</span>
+  const renderPlaceholder = () => <span className='forms-field-color-placeholder-text whitespace-nowrap'>{ placeholder }</span>
 
   const renderValue = () => {
     if (returnType === RETURN_TYPE_VALUE) {
       // find the obj using value
-      const foundObj = options.find((o: SelectOption) => o.value === value) || ''
-      return foundObj? foundObj?.label : renderPlaceholder()
+      const primitiveValue = value as string | number | boolean | undefined
+      const foundObj = options.find((o: SelectOption) => o.value === primitiveValue)
+      return foundObj? foundObj.label : renderPlaceholder()
     }
 
     if (returnType === RETURN_TYPE_OBJECT) {
-      return value?.label? value?.label : renderPlaceholder()
+      const isSelectOption = (
+        v: unknown
+      ): v is SelectOption => typeof v === 'object' && v !== null && 'label' in v && 'value' in v
+      return isSelectOption(value)? value.label : renderPlaceholder()
     }
 
     if (returnType === RETURN_TYPE_ARRAY) {
-      if (!value.length) return renderPlaceholder()
+      if (!Array.isArray(value) || value.length === 0) return renderPlaceholder()
 
       return (
         <div className='flex items-center flex-wrap box-border gap-2'>
           {
-            value.map((option: SelectOption) => {
+            (value as SelectOption[]).map((option: SelectOption) => {
               return (
                 <div 
                   className='p-1 rounded-md flex justify-start bg-gray-100'
                   onClick={(e) => {
                     e.stopPropagation()
                   }}
-                  key={option.value}
+                  key={String(option.value)}
                 >
                   <div className={cn({
                     'whitespace-break-spaces break-all flex-1': true
@@ -82,8 +85,10 @@ const Controller = forwardRef(({
         'forms-field-container forms-field-input p-0': true,
         'forms-field-color-error-border': hasError,
         'forms-field-container-disabled': disabled,
-        'cursor-pointer': !disabled
+        'cursor-pointer': !disabled,
+        'ring-1 ring-primary': Boolean(isFocusController)
       })}
+      aria-readonly={readOnly}
     >
       <div 
         className={cn({

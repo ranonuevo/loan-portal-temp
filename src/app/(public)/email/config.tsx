@@ -16,7 +16,7 @@ export const defaultValues: z.infer<typeof formSchema> = {
   agreeTerms: false
 }
 
-const isDisabled = (values: any, name: any): boolean => {
+const isDisabled = (): boolean => {
   return false // No disabled fields in email form
 }
 

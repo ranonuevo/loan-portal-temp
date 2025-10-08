@@ -12,7 +12,7 @@ export const defaultValues: z.infer<typeof formSchema> = {
   mobile: ''
 }
 
-const isDisabled = (values: any, name: any): boolean => {
+const isDisabled = (): boolean => {
   return false // No disabled fields in mobile form
 }
 

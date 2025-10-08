@@ -266,7 +266,7 @@ export default function ProductDetailsPage() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Product Not Found</h1>
-          <p className="text-gray-600 mb-4">The product you're looking for doesn't exist.</p>
+          <p className="text-gray-600 mb-4">The product you&apos;re looking for doesn&apos;t exist.</p>
           <Button asChild variant="marhaba">
             <Link href="/products">Back to Products</Link>
           </Button>

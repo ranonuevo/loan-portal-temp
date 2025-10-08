@@ -19,15 +19,16 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   const bulletWithSpace = `${bullet} `
   const enter = 13
 
-  const handleKeyUp = (event: any) => {
+  const handleKeyUp = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (!appendBulletEveryEnter) return
     
     const { keyCode, target } = event
-    const { selectionStart, value } = target
+    const textArea = target as HTMLTextAreaElement
+    const { selectionStart, value } = textArea
     
     if (keyCode === enter) {
       // console.log('a');
-      target.value = [...value]
+      textArea.value = [...value]
         .map((c, i) => i === selectionStart - 1
           ? `\n${bulletWithSpace}`
           : c
@@ -35,12 +36,12 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         .join('')
         // console.log(target.value);
         
-      target.selectionStart = selectionStart+bulletWithSpace.length
-      target.selectionEnd = selectionStart+bulletWithSpace.length
+      textArea.selectionStart = selectionStart+bulletWithSpace.length
+      textArea.selectionEnd = selectionStart+bulletWithSpace.length
     }
     
     if (value[0] !== bullet) {
-      target.value = `${bulletWithSpace}${value}`
+      textArea.value = `${bulletWithSpace}${value}`
     }
   }
 

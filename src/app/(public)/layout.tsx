@@ -31,7 +31,19 @@ export default function RootLayout({
         <ConfirmServiceProvider>
           {children}
         </ConfirmServiceProvider>
-        <Toaster position="top-center" />
+        <Toaster 
+          position="top-center"
+          toastOptions={{
+            classNames: {
+              toast: "rounded-xl shadow-lg border border-white/10 bg-gradient-to-br from-orange-500 to-pink-500 text-white",
+              title: "text-white font-semibold text-lg",
+              description: "text-white/90",
+              actionButton: "bg-white/15 hover:bg-white/25 text-white",
+              cancelButton: "bg-white text-gray-900",
+              closeButton: "text-white/80 hover:text-white",
+            }
+          }}
+        />
       </body>
     </html>
   );

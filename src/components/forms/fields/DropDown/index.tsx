@@ -63,7 +63,7 @@ const DropDown = React.forwardRef<HTMLDivElement, DropDownProps>(({
   }
 
   const changeOption = (option: SelectOption) => {
-    onBlur && onBlur()
+    if (onBlur) onBlur()
 
     if (filteredOptions.length === 1 && option?.label === noOptionsLabel) return
 
@@ -135,7 +135,7 @@ const DropDown = React.forwardRef<HTMLDivElement, DropDownProps>(({
       case 'Tab': {
         closeOptions()
         setFocusController(false)
-        onBlur && onBlur()
+        if (onBlur) onBlur()
         break
       }
     }
@@ -145,7 +145,7 @@ const DropDown = React.forwardRef<HTMLDivElement, DropDownProps>(({
     if (!e.currentTarget.contains(e.relatedTarget)) {
       closeOptions()
       setFocusController(false)
-      onBlur && onBlur()
+      if (onBlur) onBlur()
     }
   }
 
@@ -163,6 +163,7 @@ const DropDown = React.forwardRef<HTMLDivElement, DropDownProps>(({
       className={cn(
         'relative w-full text-base'
       )}
+      ref={ref}
     >
       <Controller 
         value={value}
@@ -205,7 +206,7 @@ const DropDown = React.forwardRef<HTMLDivElement, DropDownProps>(({
               const isSelected = isOptionSelected(option)
               return (
                 <div 
-                  key={option.value} 
+                  key={String(option.value)} 
                   onClick={(e) => {
                     e.stopPropagation()
                     changeOption(option)

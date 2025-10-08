@@ -1,7 +1,7 @@
 export type SelectOption = {
   label: string
-  value: any,
-  [key: string]: any
+  value: string | number | boolean,
+  [key: string]: unknown
 }
 
 type Placeholder = string
@@ -14,20 +14,20 @@ type ReturnType = typeof RETURN_TYPE_VALUE | typeof RETURN_TYPE_OBJECT | typeof 
 
 export type SingleStringSelectProps = {
   returnType?: typeof RETURN_TYPE_VALUE
-  value?: string | number
-  onChange?: (value: string) => void // eslint-disable-line
+  value?: string | number | boolean
+  onChange?: (value: string | number | boolean) => void
 }
 
 export type SingleObjectSelectProps = {
   returnType?: typeof RETURN_TYPE_OBJECT
   value?: SelectOption | undefined
-  onChange?: (value: SelectOption | undefined) => void // eslint-disable-line
+  onChange?: (value: SelectOption | undefined) => void
 }
 
 export type MultipleSelectProps = {
   returnType?: typeof RETURN_TYPE_ARRAY
   value?: SelectOption[]
-  onChange?: (value: SelectOption[]) => void // eslint-disable-line
+  onChange?: (value: SelectOption[]) => void
 }
 
 export type DropDownProps = {
@@ -39,7 +39,7 @@ export type DropDownProps = {
   noOptionsLabel?: string
   optionOneLiner?: boolean
   hasError?: boolean,
-  onBlur?: Function,
+  onBlur?: () => void,
   maxOptionsHeight?: string,
   disabled?: boolean,
   readOnly?: boolean
@@ -48,16 +48,15 @@ export type DropDownProps = {
 
 
 export type ControllerProps = {
-  value: any // TODO should not be any!!
+  value: unknown
   options: SelectOption[],
   returnType?: ReturnType
   placeholder: Placeholder
-  changeOption: Function
-  // controllerRef: React.RefObject<HTMLDivElement>
+  changeOption: (option: SelectOption) => void
   handleClick: () => void
-  isFocusController: boolean
   styleController: React.CSSProperties | undefined
   hasError: boolean
   disabled: boolean
   readOnly: boolean
+  isFocusController?: boolean
 } 

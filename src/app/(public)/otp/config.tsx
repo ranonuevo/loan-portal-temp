@@ -12,7 +12,7 @@ export const defaultValues: z.infer<typeof formSchema> = {
   code: ''
 }
 
-const isDisabled = (values: any, name: any): boolean => {
+const isDisabled = (): boolean => {
   return false // No disabled fields in OTP form
 }
 

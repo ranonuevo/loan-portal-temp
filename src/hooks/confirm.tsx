@@ -3,8 +3,8 @@
 import React, { useState, useRef, useContext, createContext } from 'react'
 import ModalConfirmation from '@/components/modals/ModalConfirmation'
 
-type Params = any
-type ConfirmContextProps = (params: Params) => Promise<any>
+type Params = Record<string, unknown>
+type ConfirmContextProps = (params: Params) => Promise<unknown>
 type ConfirmServiceProviderProps = {
   children: React.ReactNode
 }
@@ -13,11 +13,11 @@ const ConfirmContext = createContext<ConfirmContextProps | undefined>(undefined)
 
 export const ConfirmServiceProvider = ({ children }: ConfirmServiceProviderProps) => {
   const [params, setParams] = useState<Params | null>(null)
-  const awaitingPromiseRef = useRef<any>(null)
+  const awaitingPromiseRef = useRef<{ resolve: (value: unknown) => void; reject: (reason?: unknown) => void } | null>(null)
 
   const openModal = (p: Params) => {
     setParams(p)
-    return new Promise((resolve, reject) => {
+    return new Promise<unknown>((resolve, reject) => {
       awaitingPromiseRef.current = { resolve, reject }
     })
   }
@@ -29,7 +29,7 @@ export const ConfirmServiceProvider = ({ children }: ConfirmServiceProviderProps
     setParams(null)
   }
 
-  const handleConfirm = (data = null) => {
+  const handleConfirm = (data: unknown = null) => {
     if (awaitingPromiseRef.current) {
       awaitingPromiseRef.current.resolve(data)
     }
@@ -39,7 +39,7 @@ export const ConfirmServiceProvider = ({ children }: ConfirmServiceProviderProps
   const renderModal = () => {
     return (
       <ModalConfirmation 
-        params={params as any}
+        params={params as unknown as { title: string; description: string; buttonConfirmLabel?: string; buttonConfirmVariant?: import("@/components/ui/button").ButtonProps["variant"]; showCancelBtn?: boolean }}
         isOpen={!!(params && Object.entries(params).length)} 
         handleClose={handleClose}
         handleConfirm={handleConfirm}

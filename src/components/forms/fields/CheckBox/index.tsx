@@ -4,17 +4,17 @@ import { containsObject, isEqual } from '../../utils'
 
 type Option = {
   label: string
-  value: any
-  [key: string]: any
+  value: unknown
+  [key: string]: unknown
 }
 
-type Value = any //boolean | Option[]
+type Value = boolean | Option[]
 
 export type CheckBoxProps = {
   options?: Option[]
   label?: React.ReactNode
   value: Value
-  onChange: (val: Value) => any
+  onChange: (val: Value) => void
   onBlur?: () => void
   disabled?: boolean
   hasError?: boolean
@@ -30,7 +30,7 @@ const CheckBox = React.forwardRef<HTMLInputElement, CheckBoxProps>(
     onBlur,
     disabled = false,
     hasError = false,
-    ...props 
+    // ...props 
   }, ref) => {
     const handleTick = () => {
       if (!disabled) {
@@ -40,7 +40,7 @@ const CheckBox = React.forwardRef<HTMLInputElement, CheckBoxProps>(
 
     const handleBlur = (e: React.FocusEvent) => {
       if (!e.currentTarget.contains(e.relatedTarget)) {
-        onBlur && onBlur()
+        if (onBlur) onBlur()
       }
     }
 
@@ -59,13 +59,17 @@ const CheckBox = React.forwardRef<HTMLInputElement, CheckBoxProps>(
       }
     }
 
-    const handleKeyDown = (e: any) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       switch(e.code) {
         case 'Enter':
         case 'Space':
           if (options?.length) {
-            const elementIndex = e.target?.dataset?.elementIndex
-            changeOption(options[elementIndex])
+            const target = e.target as HTMLElement
+            const idx = target?.dataset?.elementIndex
+            const elementIndex = typeof idx === 'string' ? parseInt(idx, 10) : NaN
+            if (!Number.isNaN(elementIndex) && options[elementIndex]) {
+              changeOption(options[elementIndex])
+            }
           } else {
             handleTick()
           }
@@ -89,7 +93,7 @@ const CheckBox = React.forwardRef<HTMLInputElement, CheckBoxProps>(
                     label={option.label}
                     value={isOptionSelected(option)}
                     handleTick={() => { changeOption(option) }}
-                    onBlur={onBlur}
+                    onBlur={() => { onBlur && onBlur() }}
                     hasError={hasError}
                     disabled={disabled}
                     index={index}

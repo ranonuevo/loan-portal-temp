@@ -37,7 +37,7 @@ const FieldLabel = React.forwardRef<
     'mb-2 block font-semibold text-sm',
     {
       'text-app-disabled': disabled,
-      // 'text-error': hasError,
+      '': hasError
     },
     className2
   )

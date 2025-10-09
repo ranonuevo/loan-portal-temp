@@ -3,10 +3,10 @@
 import { ArrowLeft, Mail, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { Button } from '@/components/ui/button'
 
-export default function EmailVerificationPage() {
+function EmailVerificationContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [isVerified, setIsVerified] = useState(false)
@@ -230,5 +230,13 @@ export default function EmailVerificationPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function EmailVerificationPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EmailVerificationContent />
+    </Suspense>
   )
 }

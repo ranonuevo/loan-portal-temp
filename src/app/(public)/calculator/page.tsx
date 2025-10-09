@@ -3,7 +3,7 @@
 import { ArrowLeft, Search, Edit2 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/forms/fields/Input'
 
@@ -66,7 +66,7 @@ const calculateMonthlyPayment = (amount: number, months: number, rate: number) =
   return Math.round(payment)
 }
 
-export default function CalculatorPage() {
+function CalculatorContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const productId = searchParams.get('product') || 'personal-finance'
@@ -320,5 +320,13 @@ export default function CalculatorPage() {
         }
       `}</style>
     </div>
+  )
+}
+
+export default function CalculatorPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CalculatorContent />
+    </Suspense>
   )
 }

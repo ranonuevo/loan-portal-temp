@@ -59,7 +59,7 @@ export default function PasscodePage() {
       return
     }
     toast.success('Passcode set successfully')
-    router.push('/mobile')
+    router.push('/email-verification')
   }
 
   return (

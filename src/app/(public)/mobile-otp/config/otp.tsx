@@ -1,27 +1,23 @@
 import { z } from 'zod'
 import { FieldConfig } from '@/components/forms'
 
-export const formSchema = z.object({
+export const otpSchema = z.object({
   code: z
     .string()
     .length(6, { message: 'Enter 6 digits' })
     .regex(/^\d+$/, { message: 'Digits only' }),
 })
 
-export const defaultValues: z.infer<typeof formSchema> = {
+export const otpDefaultValues: z.infer<typeof otpSchema> = {
   code: ''
 }
 
-const isDisabled = (): boolean => {
-  return false // No disabled fields in OTP form
-}
-
-export const formConfig: FieldConfig[] = [
+export const otpFieldConfig: FieldConfig[] = [
   {
     type: 'digits',
     name: 'code',
     label: 'Verification code',
-    isDisabled,
+    isDisabled: () => false,
     fieldProps: {
       allowDecimal: false,
       inputMode: 'numeric',

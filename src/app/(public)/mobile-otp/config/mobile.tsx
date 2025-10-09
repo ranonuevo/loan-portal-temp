@@ -1,27 +1,23 @@
 import { z } from 'zod'
 import { FieldConfig } from '@/components/forms'
 
-export const formSchema = z.object({
+export const mobileSchema = z.object({
   mobile: z
     .string()
     .min(1, { message: 'Mandatory Field' })
     .regex(/^\d{7,12}$/g, { message: 'Enter a valid number' }),
 })
 
-export const defaultValues: z.infer<typeof formSchema> = {
+export const mobileDefaultValues: z.infer<typeof mobileSchema> = {
   mobile: ''
 }
 
-const isDisabled = (): boolean => {
-  return false // No disabled fields in mobile form
-}
-
-export const formConfig: FieldConfig[] = [
+export const mobileFieldConfig: FieldConfig[] = [
   {
     type: 'digits',
     name: 'mobile',
     label: 'Mobile number',
-    isDisabled,
+    isDisabled: () => false,
     fieldProps: {
       allowDecimal: false,
       inputMode: 'numeric',

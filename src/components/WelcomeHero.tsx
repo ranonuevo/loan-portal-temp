@@ -41,7 +41,7 @@ const WelcomeHero = () => {
           className="w-full max-w-sm h-14 rounded-full text-lg font-medium mb-8 animate-fade-in transition-all duration-300"
           style={{ animationDelay: "0.2s" }}
         >
-          <Link href="/mobile">Start exploring</Link>
+          <Link href="/mobile-otp">Start exploring</Link>
         </Button>
 
         {/* Login Link */}

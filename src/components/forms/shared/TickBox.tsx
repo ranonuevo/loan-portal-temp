@@ -53,6 +53,7 @@ const TickBox = ({
       <span 
         onClick={(e) => {
           handleTick(e);
+          onBlur?.(e as any); 
         }}
         className={cn({
           'mt-[3px]': true,

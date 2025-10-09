@@ -82,29 +82,22 @@ const Controller = forwardRef(({
   return (
     <div 
       className={cn({
-        'forms-field-container forms-field-input p-0': true,
+        'forms-field-container forms-field-input': true, // global.css'
         'forms-field-color-error-border': hasError,
         'forms-field-container-disabled': disabled,
-        'cursor-pointer': !disabled,
-        'ring-1 ring-primary': Boolean(isFocusController)
-      })}
+        '': Boolean(isFocusController),
+        'flex items-center': true
+      })} 
+      tabIndex={0} 
+      ref={ref}
+      onClick={handleClick}
       aria-readonly={readOnly}
+      style={styleController}
     >
-      <div 
-        className={cn({
-          'forms-field-container forms-field-input': true, // global.css'
-          'flex items-center': true
-        })} 
-        tabIndex={0} 
-        ref={ref}
-        onClick={handleClick}
-        style={styleController}
-      >
-        <div className={cn('flex-1 pr-3 overflow-hidden text-inherit')}>
-          { renderValue() }
-        </div>
-        <IconChevronDown />
+      <div className={cn('flex-1 pr-3 overflow-hidden text-inherit')}>
+        { renderValue() }
       </div>
+      <IconChevronDown />
     </div>
   )
 })

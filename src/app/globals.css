@@ -123,6 +123,12 @@
 }
 
 @theme {
+  --text-base: 14px;               /* 14px */
+  --text-base--line-height: 18px;  /* 18px */
+
+  --color-system-black: #3f404a;
+  --color-primary: #ff3266; /* default */
+  
   --color-navy-deep: oklch(from hsl(240 100% 10%) l c h);
   --color-navy-bg: oklch(from hsl(240 91% 8%) l c h);
   --color-text-light: oklch(from hsl(0 0% 95%) l c h);
@@ -165,7 +171,9 @@
   .forms-field-color-error-border { @apply border-red-500; }
   .forms-field-color-disabled-text { @apply text-muted-foreground; }
   .forms-field-color-error-text {  @apply text-red-500; }
+  /* END FORMS */
 
+  
   /* SONNER / TOAST BRANDING */
   .sonner-toast {
     @apply rounded-xl shadow-lg border border-white/10 text-white;

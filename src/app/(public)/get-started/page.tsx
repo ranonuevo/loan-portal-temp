@@ -8,10 +8,16 @@ import { Button } from '@/components/ui/button'
 // Application steps configuration
 const applicationSteps = [
   {
+    id: 'scan-id',
+    title: 'ID Verification',
+    icon: <FileText className="w-6 h-6" />,
+    completed: false
+  },
+  {
     id: 'consent',
     title: 'Consent & agreements',
     icon: <FileText className="w-6 h-6" />,
-    completed: true
+    completed: false
   },
   {
     id: 'account',

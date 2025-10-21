@@ -346,7 +346,7 @@ export default function ProductDetailsPage() {
               className="w-full h-14 text-lg font-semibold rounded-xl"
               asChild
             >
-              <Link href="/personal-details">
+              <Link href="/scan-id">
                 {product.ctaText}
               </Link>
             </Button>

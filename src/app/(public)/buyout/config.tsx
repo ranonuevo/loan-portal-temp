@@ -94,20 +94,20 @@ const employerChildFields: FieldConfig[] = [
 ]
 
 const banksSchema = z.object({
-  bankName: z.string().optional(),//min(1, { message: mandatoryTxt }),
-  settlementProduct: z.array(z.any()).optional(),//min(1, { message: mandatoryTxt }),
-  loanAmount: z.string().optional(),//min(1, { message: mandatoryTxt })
+  bankName: z.string().min(1, { message: mandatoryTxt }),
+  settlementProduct: z.array(z.any()).min(1, { message: mandatoryTxt }),
+  loanAmount: z.string().min(1, { message: mandatoryTxt })
 })
 
 const internalSchema = z.object({
-  settlementProduct: z.array(z.any()).optional(),//.min(1, { message: mandatoryTxt }),
-  loanAmount: z.string().optional(),//min(1, { message: mandatoryTxt })
+  settlementProduct: z.array(z.any()).min(1, { message: mandatoryTxt }),
+  loanAmount: z.string().min(1, { message: mandatoryTxt })
 })
 
 const employerSchema = z.object({
   ahbExistingClient: z.boolean(),
-  employerName: z.string().optional(), //min(1, { message: mandatoryTxt }),
-  loanAmount: z.string().optional(), //min(1, { message: mandatoryTxt })
+  employerName: z.string().min(1, { message: mandatoryTxt }),
+  loanAmount: z.string().min(1, { message: mandatoryTxt })
 })
 
 export const formSchema = z.object({
@@ -126,9 +126,9 @@ export const initialEmployerValue = { ahbExistingClient: false, employerName: ''
 export const defaultValues: z.infer<typeof formSchema> = {
   buyout: true,
   buyoutTypes: [],
-  banks: [initialBankValue],
-  internals: [initialInternalValue],
-  employers: [initialEmployerValue],
+  banks: [],
+  internals: [],
+  employers: [],
   isDisableFields: false
 }
 

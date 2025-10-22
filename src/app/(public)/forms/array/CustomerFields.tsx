@@ -7,7 +7,8 @@ type Props = Record<string, never>
 
 export default function CustomerFields ({}: Props) {
   const hookForm: any = useFormContext() 
-  const { control, displayInput } = hookForm
+  const { control, displayInput, formState: { errors } } = hookForm
+  console.log(errors)
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'customers'
@@ -23,9 +24,7 @@ export default function CustomerFields ({}: Props) {
             <div key={`education-${index}`} className='p-4 bg-white'>
               <div className='flex justify-between items-center mb-4'>
                 <div>Customer #{index + 1}</div>
-                {fields.length > 1 && (
-                  <Button type='button' onClick={() => remove(index)} variant='default' size='sm' className='h-[25px]'>Remove</Button>
-                )}
+                <Button type='button' onClick={() => remove(index)} variant='default' size='sm' className='h-[25px]'>Remove</Button>
               </div>
                 
               <div className='grid grid-cols-2 gap-10 gap-x-12'>

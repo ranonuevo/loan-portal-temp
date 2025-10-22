@@ -1,7 +1,7 @@
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { initialEmployerValue } from './config'
-import { LucidePlus } from 'lucide-react'
+import { X, LucidePlus } from 'lucide-react'
 
 type Props = Record<string, never>
 
@@ -14,7 +14,7 @@ export default function EmployerFields ({}: Props) {
   })
 
   return (
-    <section className='bg-slate-100 p-4 mb-4 mt-5'>
+    <section className='bg-slate-100 p-4 rounded-md'>
       <h2 className='font-bold text-xl mb-4'>Employers</h2>
 
       <div className='flex flex-col gap-4'>
@@ -24,7 +24,16 @@ export default function EmployerFields ({}: Props) {
               <div className='flex justify-between items-center mb-4'>
                 <div>Employer #{index + 1}</div>
                 {fields.length > 1 && (
-                  <Button type='button' onClick={() => remove(index)} variant='default' size='sm' className='h-[25px]'>Remove</Button>
+                  <Button 
+                    type='button' 
+                    onClick={() => remove(index)} 
+                    variant='ghost' 
+                    size='sm' 
+                    className='h-[25px]'
+                    title='remove'
+                  >
+                    <X strokeWidth={3} className='text-primary h-12 w-12' />
+                  </Button>
                 )}
               </div>
 

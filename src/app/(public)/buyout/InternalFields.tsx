@@ -1,7 +1,7 @@
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { initialInternalValue } from './config'
-import { LucidePlus } from 'lucide-react'
+import { X, LucidePlus } from 'lucide-react'
 
 type Props = Record<string, never>
 
@@ -14,7 +14,7 @@ export default function InternalFields ({}: Props) {
   })
 
   return (
-    <section className='bg-slate-100 p-4 mb-4 mt-5'>
+    <section className='bg-slate-100 p-4 rounded-md'>
       <h2 className='font-bold text-xl mb-4'>Internal Settlements</h2>
 
       <div className='flex flex-col gap-4'>
@@ -24,12 +24,21 @@ export default function InternalFields ({}: Props) {
               <div className='flex justify-between items-center mb-4'>
                 <div>Settlement #{index + 1}</div>
                 {fields.length > 1 && (
-                  <Button type='button' onClick={() => remove(index)} variant='default' size='sm' className='h-[25px]'>Remove</Button>
+                  <Button 
+                    type='button' 
+                    onClick={() => remove(index)} 
+                    variant='ghost' 
+                    size='sm' 
+                    className='h-[25px]'
+                    title='remove'
+                  >
+                    <X strokeWidth={3} className='text-primary h-12 w-12' />
+                  </Button>
                 )}
               </div>
 
-              <div className='grid grid-cols-3 gap-4'>
-                <div className="col-span-2">  
+              <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                <div className="md:col-span-2">  
                   { displayInput(null, `internals.${index}.settlementProduct`) }
                 </div>
                 <div className="col-span-1">  

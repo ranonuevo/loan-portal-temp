@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense } from 'react'
+import { Suspense, use, useEffect } from 'react'
 import Header from '@/components/ui/Header'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
@@ -8,7 +8,7 @@ import { z } from 'zod'
 // import { useModalConfirm } from '@/hooks/confirm'
 import { useRouter } from 'next/navigation'
 import { FieldRenderer, conditionalZodResolver } from '@/components/forms'
-import { formConfig, formSchema, defaultValues } from './config'
+import { formConfig, formSchema, defaultValues, initialBankValue, initialInternalValue, initialEmployerValue } from './config'
 import BanksFields from './BanksFields'
 import InternalFields from './InternalFields'
 import EmployerFields from './EmployerFields'
@@ -43,7 +43,7 @@ console.log('errors', errors)
 
       console.log('onSubmit', values) // eslint-disable-line
       
-      router.push('/calculator')
+      // router.push('/calculator')
     // })
     // .catch(() => {})
   }
@@ -64,6 +64,43 @@ console.log('errors', errors)
     displayInput
   }
 
+  useEffect(() => {
+    // Disable fields when not buyout
+    if (!buyout) {
+      setValue('banks', [])
+      setValue('internals', [])
+      setValue('employers', [])
+    }
+  } , [buyout, setValue])
+
+  useEffect(() => {
+    // Reset buyoutTypes when buyout is false
+    if (!buyout) {
+      setValue('buyoutTypes', [])
+    }
+  }, [buyout, setValue])
+
+  useEffect(() => {
+    // Reset banks when bank type is unchecked
+    if (!isBuyoutTypesSelected('bank')) {
+      setValue('banks', [])
+    } else {
+      setValue('banks', [{...initialBankValue }])
+    }
+
+    if (!isBuyoutTypesSelected('internal')) {
+      setValue('internals', [])
+    } else {
+      setValue('internals', [{...initialInternalValue }])
+    }
+
+    if (!isBuyoutTypesSelected('employer')) {
+      setValue('employers', [])
+    }  else {
+      setValue('employers', [{...initialEmployerValue }])
+    }
+  }, [buyoutTypes, setValue])
+
   return (
     <Suspense>
       <div className="min-h-screen bg-white">
@@ -77,27 +114,29 @@ console.log('errors', errors)
             <FormProvider {...hookMethods}>
               <form onSubmit={handleSubmit(onSubmit)} className='grid flex-col gap-y-5'>
                 <div>
-                  <div className='flex flex-col gap-10 gap-x-12'>
+                  <div className='flex flex-col gap-10 gap-x-12 mb-10'>
                     { displayInput('buyout') }
                     { buyout && displayInput('buyoutTypes') }
                   </div>
 
-                  {buyout && isBuyoutTypesSelected('bank') && (
-                    <BanksFields />
-                  )}
+                  <div className='flex flex-col gap-5'>
+                    {buyout && isBuyoutTypesSelected('bank') && (
+                      <BanksFields />
+                    )}
 
-                  {buyout && isBuyoutTypesSelected('internal') && (
-                    <InternalFields />
-                  )}
+                    {buyout && isBuyoutTypesSelected('internal') && (
+                      <InternalFields />
+                    )}
 
-                  {buyout && isBuyoutTypesSelected('employer') && (
-                    <EmployerFields />
-                  )}
+                    {buyout && isBuyoutTypesSelected('employer') && (
+                      <EmployerFields />
+                    )}
+                  </div>
                 </div>
 
                 <Button
                   type='submit'
-                  className='w-full h-14 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white text-lg font-medium shadow-lg'
+                  className='mt-5 w-full h-14 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white text-lg font-medium shadow-lg'
                 >
                   Continue
                 </Button>

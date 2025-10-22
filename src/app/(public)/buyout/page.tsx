@@ -5,7 +5,7 @@ import Header from '@/components/ui/Header'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { z } from 'zod'
-import { useModalConfirm } from '@/hooks/confirm'
+// import { useModalConfirm } from '@/hooks/confirm'
 import { useRouter } from 'next/navigation'
 import { FieldRenderer, conditionalZodResolver } from '@/components/forms'
 import { formConfig, formSchema, defaultValues } from './config'
@@ -14,7 +14,7 @@ import InternalFields from './InternalFields'
 import EmployerFields from './EmployerFields'
 
 export default function Page () {
-  const modalConfirm = useModalConfirm()
+  // const modalConfirm = useModalConfirm()
 
   const hookForm = useForm<z.infer<typeof formSchema>>({
     mode: 'onTouched',
@@ -22,8 +22,8 @@ export default function Page () {
     defaultValues
   })
 
-  const { handleSubmit, setValue, watch } = hookForm
-
+  const { handleSubmit, setValue, watch, formState: { errors } } = hookForm
+console.log('errors', errors)
   const buyout = watch('buyout')
   const buyoutTypes: any[] = watch('buyoutTypes') || []
   const isBuyoutTypesSelected = (type: string) => {
@@ -32,11 +32,11 @@ export default function Page () {
 
   const router = useRouter()
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    modalConfirm({
-      title: 'Form Submission',
-      description: 'This will submit the form, are you sure?'
-    })
-    .then(async () => {
+    // modalConfirm({
+    //   title: 'Form Submission',
+    //   description: 'This will submit the form, are you sure?'
+    // })
+    // .then(async () => {
       setValue('isDisableFields', true)
       await new Promise(resolve => setTimeout(resolve, 1000))
       setValue('isDisableFields', false)
@@ -44,8 +44,8 @@ export default function Page () {
       console.log('onSubmit', values) // eslint-disable-line
       
       router.push('/calculator')
-    })
-    .catch(() => {})
+    // })
+    // .catch(() => {})
   }
 
   const displayInput = (name: string, fieldArrayName: string | null = null) => {

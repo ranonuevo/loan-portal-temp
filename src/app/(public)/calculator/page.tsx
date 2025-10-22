@@ -115,7 +115,7 @@ function CalculatorContent() {
     <div className="min-h-screen bg-white">
 
       <Header
-        backHref={`/products/${productId}`}
+        backHref={`/buyout`}
         backLabel="Back"
       />
 

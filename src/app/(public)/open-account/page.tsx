@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 export default function OpenAccountPage() {
   return (
     <div className="min-h-screen bg-white">
-      <Header backHref="/consent" backLabel="Back" title="Continue your application" />
+      <Header backHref="/consent" backLabel="Back" />
 
       {/* Main Content */}
       <div className="px-6 py-6">

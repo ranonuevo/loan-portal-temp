@@ -64,7 +64,7 @@ export default function PasscodePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header backHref="/products" backLabel="Back" title="" />
+      <Header backHref="/personal-details" backLabel="Back" title="" />
 
       {/* Main Content */}
       <div className="px-6 py-6">

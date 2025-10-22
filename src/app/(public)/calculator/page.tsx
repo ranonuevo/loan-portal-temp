@@ -113,15 +113,18 @@ function CalculatorContent() {
 
   return (
     <div className="min-h-screen bg-white">
+
       <Header
         backHref={`/products/${productId}`}
         backLabel="Back"
-        title={config.title}
       />
 
       {/* Main Content */}
       <div className="px-6 py-6">
         <div className="max-w-md mx-auto">
+
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{config.title}</h1>
+
           {/* Confirmation message */}
           <p className="text-sm text-gray-500 mb-6">they have been entered correctly</p>
 

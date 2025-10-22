@@ -2,6 +2,7 @@
 
 import { ArrowLeft, Mail, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
+import Header from '@/components/ui/Header'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect, Suspense } from 'react'
 import { Button } from '@/components/ui/button'
@@ -54,7 +55,7 @@ function EmailVerificationContent() {
   }
 
   const handleChangeEmail = () => {
-    router.push('/email')
+    router.push('/passcode')
   }
 
   const handleVerifyEmail = () => {
@@ -66,17 +67,9 @@ function EmailVerificationContent() {
   }
 
   if (isVerified) {
-    return (
-      <div className="min-h-screen bg-white">
-        {/* Header */}
-        <div className="bg-white border-b border-gray-100 px-6 py-4 sticky top-0 z-10">
-          <div className="flex items-center justify-between">
-            <Link href="/email" className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors">
-              <ArrowLeft className="w-5 h-5" />
-              <span className="text-sm font-medium">Back</span>
-            </Link>
-          </div>
-        </div>
+      return (
+        <div className="min-h-screen bg-white">
+          <Header backHref="/passcode" backLabel="Back" />
 
         {/* Success Banner */}
         <div className="bg-green-500 text-white px-6 py-4">
@@ -146,15 +139,7 @@ function EmailVerificationContent() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-100 px-6 py-4 sticky top-0 z-10">
-        <div className="flex items-center justify-between">
-          <Link href="/email" className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors">
-            <ArrowLeft className="w-5 h-5" />
-            <span className="text-sm font-medium">Back</span>
-          </Link>
-        </div>
-      </div>
+      <Header backHref="/passcode" backLabel="Back" />
 
       {/* Main Content */}
       <div className="px-6 py-6">

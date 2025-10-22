@@ -60,7 +60,7 @@ export default function GetStartedPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header backHref="/consent" backLabel="Back" title="Let's get started!" />
+      <Header backHref="/calculator" backLabel="Back" />
 
       {/* Main Content */}
       <div className="px-6 py-6">

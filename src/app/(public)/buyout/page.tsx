@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button'
 import { z } from 'zod'
 import { useModalConfirm } from '@/hooks/confirm'
 import { useRouter } from 'next/navigation'
-import { toast } from 'sonner'
 import { FieldRenderer, conditionalZodResolver } from '@/components/forms'
 import { formConfig, formSchema, defaultValues } from './config'
 import BanksFields from './BanksFields'
@@ -31,6 +30,7 @@ export default function Page () {
     return buyoutTypes.find((item) => item.value === type)
   }
 
+  const router = useRouter()
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     modalConfirm({
       title: 'Form Submission',
@@ -42,10 +42,8 @@ export default function Page () {
       setValue('isDisableFields', false)
 
       console.log('onSubmit', values) // eslint-disable-line
-      toast('Payload: ', {
-        description: '' + JSON.stringify(values),
-        position: 'top-center'
-      })
+      
+      router.push('/calculator')
     })
     .catch(() => {})
   }
@@ -70,7 +68,7 @@ export default function Page () {
     <Suspense>
       <div className="min-h-screen bg-white">
         <Header
-          backHref="/"
+          backHref="email-verification"
           backLabel="Back"
         />
         {/* Main Content */}

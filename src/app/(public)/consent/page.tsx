@@ -81,7 +81,7 @@ export default function ConsentPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header backHref="/calculator" backLabel="Back" title="Consent & agreements" rightActions={<button className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"><Search className="w-4 h-4 text-gray-600" /></button>} />
+      <Header backHref="/get-started" backLabel="Back" rightActions={<button className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"><Search className="w-4 h-4 text-gray-600" /></button>} />
 
       {/* Main Content */}
       <div className="px-6 py-6">

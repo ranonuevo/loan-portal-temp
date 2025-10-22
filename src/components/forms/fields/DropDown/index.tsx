@@ -11,6 +11,7 @@ import {
 import Controller from './Controller'
 import { cn } from '@/lib/utils'
 import { isEqual, containsObject } from '../../utils'
+import { is } from 'zod/locales'
 
 export type { SelectOption, DropDownProps }
 
@@ -193,7 +194,7 @@ const DropDown = React.forwardRef<HTMLDivElement, DropDownProps>(({
         tabIndex={-1} 
         style={{
           maxHeight: maxOptionsHeight, 
-          // boxShadow: 'rgb(13 22 38 / 10%) 0px 0px 0px 1px, rgb(13 22 38 / 10%) 0px 4px 11px'
+          boxShadow: isOpen? 'rgb(13 22 38 / 10%) 0px 0px 0px 1px, rgb(13 22 38 / 10%) 0px 4px 11px' : 'none'
         }}
       >
         <div className={cn({

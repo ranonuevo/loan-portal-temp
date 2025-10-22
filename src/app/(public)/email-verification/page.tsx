@@ -61,8 +61,8 @@ function EmailVerificationContent() {
     // Simulate email verification
     setIsVerified(true)
     setTimeout(() => {
-      router.push('/calculator')
-    }, 2000)
+      router.push('/buyout')
+    }, 3000)
   }
 
   if (isVerified) {

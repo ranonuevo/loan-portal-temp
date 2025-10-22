@@ -1,7 +1,7 @@
 'use client'
 
-import { ArrowLeft, FileText, Building, User, DollarSign, Eye, File } from 'lucide-react'
-import Link from 'next/link'
+import { FileText, Building, User, DollarSign, Eye, File } from 'lucide-react'
+import Header from '@/components/ui/Header'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 
@@ -60,21 +60,7 @@ export default function GetStartedPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-100 px-6 py-4 sticky top-0 z-10">
-        <div className="flex items-center justify-between">
-          <Link 
-            href="/consent" 
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="text-sm font-medium">Back</span>
-          </Link>
-          <button className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
-            <div className="w-4 h-4 bg-gray-400 rounded"></div>
-          </button>
-        </div>
-      </div>
+      <Header backHref="/consent" backLabel="Back" title="Let's get started!" />
 
       {/* Main Content */}
       <div className="px-6 py-6">

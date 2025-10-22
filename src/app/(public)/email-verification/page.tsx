@@ -50,7 +50,7 @@ function EmailVerificationContent() {
   }
 
   const handleContinue = () => {
-    router.push('/calculator')
+    router.push('/buyout')
   }
 
   const handleChangeEmail = () => {

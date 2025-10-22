@@ -1,7 +1,7 @@
 'use client'
 
-import { ArrowLeft, Search, Edit2 } from 'lucide-react'
-import Link from 'next/link'
+import { Search, Edit2 } from 'lucide-react'
+import Header from '@/components/ui/Header'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect, Suspense } from 'react'
 import { Button } from '@/components/ui/button'
@@ -70,76 +70,58 @@ function CalculatorContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const productId = searchParams.get('product') || 'personal-finance'
-  
   const config = calculatorConfigs[productId as keyof typeof calculatorConfigs] || calculatorConfigs['personal-finance']
-  
+
   // Form state
   const [employerName, setEmployerName] = useState('')
   const [monthlySalary, setMonthlySalary] = useState('')
   const [referralCode, setReferralCode] = useState('')
   const [financingAmount, setFinancingAmount] = useState(config.defaultAmount)
   const [paymentMonths, setPaymentMonths] = useState(config.defaultMonths)
-  
+
   // UI state
   const [showSalaryError, setShowSalaryError] = useState(false)
   const [isEditingAmount, setIsEditingAmount] = useState(false)
   const [isEditingMonths, setIsEditingMonths] = useState(false)
-  
+
   // Calculate monthly payment
   const monthlyPayment = calculateMonthlyPayment(financingAmount, paymentMonths, config.profitRate)
-  
+
   // Validate salary
   useEffect(() => {
     const salary = parseFloat(monthlySalary)
     setShowSalaryError(salary > 0 && salary < config.minSalary)
   }, [monthlySalary, config.minSalary])
-  
+
   // Handle amount change
   const handleAmountChange = (value: number) => {
     const clampedValue = Math.max(config.minAmount, Math.min(config.maxAmount, value))
     setFinancingAmount(clampedValue)
   }
-  
+
   // Handle months change
   const handleMonthsChange = (value: number) => {
     const clampedValue = Math.max(config.minMonths, Math.min(config.maxMonths, value))
     setPaymentMonths(clampedValue)
   }
-  
+
   // Handle continue
   const handleApplyNow = () => {
     if (showSalaryError) return
-    
-    // Navigate to get started screen
     router.push('/get-started')
   }
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-100 px-6 py-4 sticky top-0 z-10">
-        <div className="flex items-center justify-between">
-          <Link 
-            href={`/products/${productId}`} 
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="text-sm font-medium">Back</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <button className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
-              <div className="w-4 h-4 bg-gray-400 rounded"></div>
-            </button>
-          </div>
-        </div>
-      </div>
+      <Header
+        backHref={`/products/${productId}`}
+        backLabel="Back"
+        title={config.title}
+      />
 
       {/* Main Content */}
       <div className="px-6 py-6">
         <div className="max-w-md mx-auto">
-          {/* Title */}
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">{config.title}</h1>
-          
           {/* Confirmation message */}
           <p className="text-sm text-gray-500 mb-6">they have been entered correctly</p>
 
@@ -209,7 +191,7 @@ function CalculatorContent() {
                 Edit
               </button>
             </div>
-            
+
             <div className="text-center mb-4">
               <div className="text-3xl font-bold text-gray-900">
                 {formatCurrency(financingAmount)}
@@ -248,7 +230,7 @@ function CalculatorContent() {
                 Edit
               </button>
             </div>
-            
+
             <div className="text-center mb-4">
               <div className="text-3xl font-bold text-gray-900">
                 {paymentMonths} Months

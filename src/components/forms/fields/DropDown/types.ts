@@ -32,7 +32,6 @@ export type MultipleSelectProps = {
 
 export type DropDownProps = {
   removeOptionWhenSelected?: boolean
-  betweenLabelAndInputComponents?: () => React.ReactNode
   disableToggleOnSelectedOption?: boolean,
   options?: SelectOption[]
   placeholder?: Placeholder

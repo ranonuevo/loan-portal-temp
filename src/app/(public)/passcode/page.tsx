@@ -1,7 +1,7 @@
 'use client'
 
-import { ArrowLeft, ChevronRight } from 'lucide-react'
-import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
+import Header from '@/components/ui/Header'
 import { useRouter } from 'next/navigation'
 import * as React from 'react'
 
@@ -64,15 +64,7 @@ export default function PasscodePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-100 px-6 py-4 sticky top-0 z-10">
-        <div className="flex items-center justify-between">
-          <Link href="/products" className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors">
-            <ArrowLeft className="w-5 h-5" />
-            <span className="text-sm font-medium">Back</span>
-          </Link>
-        </div>
-      </div>
+      <Header backHref="/products" backLabel="Back" title="" />
 
       {/* Main Content */}
       <div className="px-6 py-6">

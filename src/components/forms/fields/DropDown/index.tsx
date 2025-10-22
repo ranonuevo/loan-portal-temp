@@ -198,7 +198,7 @@ const DropDown = React.forwardRef<HTMLDivElement, DropDownProps>(({
       >
         <div className={cn({
           'hidden ': true,
-          'block': isOpen
+          'block border border-gray-100': isOpen
           })}
         >
           {

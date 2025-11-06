@@ -38,7 +38,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputType = type === "password" && togglePassword && showPassword ? "text" : type
 
     let onChangeProps: Pick<React.ComponentProps<'input'>, 'value' | 'onChange'> = { value, onChange: () => {} }
-    if (debounceDuration > 0) {
+    const isFileInput = type === 'file'
+
+    // For file inputs we must not pass a `value` prop (it must stay uncontrolled).
+    // Provide only an onChange handler that forwards the event to react-hook-form.
+    if (isFileInput) {
+      onChangeProps = {
+        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+          props.onChange?.(e)
+        }
+      }
+    } else if (debounceDuration > 0) {
       onChangeProps = {
         value: inputValue,
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -51,7 +51,7 @@ export default function DemoOpusPage() {
           const fileUrl = await uploadFileToOpus(file);
 
           // 2️⃣ Start job
-          toast.info('Starting workflow...', { id: 'opus' });
+          toast.info('Workflow started...', { id: 'opus' });
           const runJobRes: any = await runJob(
             'PNRJPVlR3e8KrLnH',
             'HKID Verification',

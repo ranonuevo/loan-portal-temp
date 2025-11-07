@@ -4,25 +4,25 @@ import { FieldConfig } from '@/components/forms'
 const mandatoryTxt = 'Mandatory field.'
 
 export const formSchema = z.object({
-  email: z.string().email({
+  recipientEmail: z.string().email({
     message: 'Please enter a valid email address',
   }),
   name: z.string().min(1, { message: mandatoryTxt }),
   hkid: z.string().min(1, { message: mandatoryTxt }),
   dateOfBirth: z
     .string()
-    .min(10, { message: 'Use format DD/MM/YYYY' })
-    .max(10, { message: 'Use format DD/MM/YYYY' })
-    .regex(/^\d{2}\/\d{2}\/\d{4}$/, { message: 'Use format DD/MM/YYYY' }),
+    .min(10, { message: 'Use format YYYY-MM-DD' })
+    .max(10, { message: 'Use format YYYY-MM-DD' })
+    .regex(/^\d{4}-\d{2}-\d{2}$/, { message: 'Use format YYYY-MM-DD' }),
   hkidImage: z.any().refine((v) => v && v.length > 0, { message: 'Please upload HKID image' }),
   isDisableFields: z.boolean() // for disabling fields during form submission
 })
 
 export const defaultValues: z.infer<typeof formSchema> = {
-  email: 'test@opus.com',
-  name: 'Lok, Min',
-  hkid: '12345',
-  dateOfBirth: '12/12/2020',
+  recipientEmail: 'roy.anonuevo@growthops.asia',
+  name: 'LOK, Wing Ching',
+  hkid: 'Z683365(5)',
+  dateOfBirth: '1985-06-03',
   hkidImage: undefined,
   isDisableFields: false
 }
@@ -32,14 +32,14 @@ const isDisabled = (values: any) => {
 }
 
 export const formConfig: FieldConfig[] = [
-   {
+  {
     type: 'input',
-    name: 'email',
-    label: 'Email address',
+    name: 'recipientEmail',
+    label: 'Recipient Email address',
     isDisabled,
     fieldProps: {
       type: 'email',
-      placeholder: 'Email address'
+      placeholder: 'Recipient Email address'
     }
   },
   {
@@ -69,7 +69,7 @@ export const formConfig: FieldConfig[] = [
     isDisabled,
     fieldProps: {
       type: 'text',
-      placeholder: 'DD/MM/YYYY',
+      placeholder: 'YYYY-MM-DD',
       maxLength: 10,
       dataMask: 'date'
     }

@@ -21,6 +21,7 @@ async function opusFetch(path: string, options: RequestInit = {}) {
 export async function uploadFileToOpus(file: File): Promise<string> {
   try {
     // Step 1: Get presigned upload URL and fileKey from your Next.js API route
+    const ext = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
     const response = await fetch("/api/opus/file-upload", {
       method: "POST",
       headers: {
@@ -29,7 +30,7 @@ export async function uploadFileToOpus(file: File): Promise<string> {
       body: JSON.stringify({
         // filename: file.name,
         // contentType: file.type,
-        "fileExtension": ".png",
+        "fileExtension": ext, 
         "accessScope": "user"
       }),
     });

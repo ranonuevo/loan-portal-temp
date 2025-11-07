@@ -45,9 +45,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     if (isFileInput) {
       onChangeProps = {
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-          props.onChange?.(e)
-        }
-      }
+          const files = e.target.files;
+          if (files && files.length > 0) {
+            // Pass the actual FileList to react-hook-form
+            props.onChange?.({
+              target: { name: e.target.name, value: files },
+            } as unknown as React.ChangeEvent<HTMLInputElement>);
+          }
+        },
+      };
     } else if (debounceDuration > 0) {
       onChangeProps = {
         value: inputValue,
@@ -131,6 +137,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             'pr-8': trailingContent,
           }, className)}
           {...props}
+          {...(!isFileInput ? { value } : {})}
           {...onChangeProps}
         />
         {(trailingContent || togglePassword) && (

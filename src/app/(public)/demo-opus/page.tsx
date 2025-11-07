@@ -57,8 +57,11 @@ export default function DemoOpusPage() {
             'HKID Verification',
             'Verifies HKID and extracts data',
             {
-              workflow_input_t8r8kh4oz: { display_name: "Email Address", value: values.email, type: "str" },
+              workflow_input_sxrvlbmci: { display_name: "Name", value: values.name, type: "str" },
+              workflow_input_ozgbyqxhw: { display_name: "HKID Number", value: values.hkid, type: "str" },
+              workflow_input_t8r8kh4oz: { display_name: "Date of Birth", value: values.dateOfBirth, type: "str" },
               hkid_image: { display_name: "HKID Image", value: fileUrl, type: "file" },
+              workflow_input_gq3ljz4w5: { display_name: "Recipient Email Address", value: values.recipientEmail, type: "str" },
             }
           );
           const { jobExecutionId } = await runJobRes.json()
@@ -114,11 +117,12 @@ export default function DemoOpusPage() {
 
           <FormProvider {...hookMethods}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              {formConfig.map((field) => (
-                <div key={field.name}>
-                  {displayInput(field.name)}
-                </div>
-              ))}
+              
+              {displayInput('name')}
+              {displayInput('hkid')}
+              {displayInput('dateOfBirth')}
+              {displayInput('hkidImage')}
+              {displayInput('recipientEmail')}
 
               {jobLink && (
                 <div>

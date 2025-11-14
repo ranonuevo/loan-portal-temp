@@ -51,5 +51,15 @@ export async function runJob(workflowId: string, title: string, description: str
 
 
 export async function getJobResult(jobExecutionId: string) {
-  return opusFetch(`/job/${jobExecutionId}/results`);
+  const res = await fetch("/api/opus/get-job-result", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ jobExecutionId }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch job result");
+  }
+
+  return res.json();
 }

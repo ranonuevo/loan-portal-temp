@@ -7,6 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 
 export function flattenObject(obj: any, parentKey = '', result: Record<string, any> = {}) {
+  // eslint-disable-next-line prefer-const
   for (let key in obj) {
     const value = obj[key];
     const newKey = parentKey ? `${parentKey}.${key}` : key;

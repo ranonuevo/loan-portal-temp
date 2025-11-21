@@ -6,6 +6,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect, Suspense } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/forms/fields/Input'
+import { toast } from 'sonner'
+import { updateAppData } from '@/lib/storage'
 
 // Product-specific calculator configurations
 const calculatorConfigs = {
@@ -108,6 +110,23 @@ function CalculatorContent() {
   // Handle continue
   const handleApplyNow = () => {
     if (showSalaryError) return
+    try {
+      updateAppData({
+        calculator: {
+          employerName,
+          monthlySalary,
+          referralCode,
+          financingAmount,
+          paymentMonths
+        }
+      })
+
+      toast.success('Calculator details saved')
+    } catch (err) {
+      console.error('Error saving calculator data', err)
+      toast.error('Failed to save calculator data')
+    }
+
     router.push('/get-started')
   }
 
@@ -222,7 +241,7 @@ function CalculatorContent() {
           </div>
 
           {/* Payment months */}
-          <div className="mb-8">
+          <div className="mb-8 hidden">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">In how many months do you wish to pay your finance?</h3>
               <button
@@ -261,7 +280,7 @@ function CalculatorContent() {
           </div>
 
           {/* Monthly payment */}
-          <div className="mb-8 p-6 bg-gray-50 rounded-xl">
+          {/* <div className="mb-8 p-6 bg-gray-50 rounded-xl">
             <h3 className="text-lg font-medium text-gray-900 mb-2">Indicative monthly payment*</h3>
             <div className="text-3xl font-bold text-gray-900 mb-2">
               {formatCurrency(monthlyPayment)}
@@ -269,7 +288,7 @@ function CalculatorContent() {
             <p className="text-sm text-gray-500">
               *Based on an illustrative profit rate of {config.profitRate}% per annum flat
             </p>
-          </div>
+          </div> */}
 
           {/* Apply now button */}
           <Button
